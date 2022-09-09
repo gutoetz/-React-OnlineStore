@@ -1,4 +1,8 @@
-#categorias {
-    display: flex;
-    flex-direction: column;
+.categorias {
+  display: flex;
+  flex-direction: column;
+}
+
+.div1.section1.categorias.titulo.label {
+  color: black;
 }

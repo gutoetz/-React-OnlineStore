@@ -41,23 +41,29 @@ class Search extends React.Component {
     const { inputValue, produtos, pesquisado } = this.state;
     const { categorias } = this.props;
     return (
-      <div>
+      <div className="div1">
         <Header />
-        <section>
-          <div id="categorias">
-            <p>Categorias de pesquisa</p>
-            {categorias.length > 1 && categorias.map((categoria) => (
-              <label data-testid="category" key={ categoria.id } htmlFor={ categoria.id }>
-                <input
-                  value={ categoria.id }
-                  name="categoria"
-                  id={ categoria.id }
-                  type="radio"
-                  onClick={ this.radioClick }
-                />
-                {categoria.name}
-              </label>
-            ))}
+        <section className="section1">
+          <div className="categorias">
+            <p className="titulo">Categorias de pesquisa</p>
+            {categorias.length > 1
+              && categorias.map((categoria) => (
+                <label
+                  data-testid="category"
+                  key={ categoria.id }
+                  htmlFor={ categoria.id }
+                  className="label"
+                >
+                  <input
+                    value={ categoria.id }
+                    name="categoria"
+                    id={ categoria.id }
+                    type="radio"
+                    onClick={ this.radioClick }
+                  />
+                  {categoria.name}
+                </label>
+              ))}
           </div>
           <div>
             <input
@@ -72,7 +78,6 @@ class Search extends React.Component {
               onClick={ this.handleClickBuscar }
             >
               Buscar
-
             </button>
           </div>
         </section>
@@ -81,17 +86,21 @@ class Search extends React.Component {
             Digite algum termo de pesquisa ou escolha uma categoria.
           </p>
           <section>
-            {produtos.length > 1 && produtos.map((produto) => (
-              <section data-testid="product" key={ produto.id }>
-                <h4>{produtos.title}</h4>
-                <h5>{`Preço: R$ ${produto.price}`}</h5>
-                <img src={ produto.thumbnail } alt={ produto.id } />
-                <Link to={ `Produto/${produto.id}` } data-testid="product-detail-link">
-                  Detalhes
-                </Link>
-              </section>
-            ))}
-            {pesquisado === true ? (<p>Nenhum produto foi encontrado</p>) : (null)}
+            {produtos.length > 1
+              && produtos.map((produto) => (
+                <section data-testid="product" key={ produto.id }>
+                  <h4>{produtos.title}</h4>
+                  <h5>{`Preço: R$ ${produto.price}`}</h5>
+                  <img src={ produto.thumbnail } alt={ produto.id } />
+                  <Link
+                    to={ `Produto/${produto.id}` }
+                    data-testid="product-detail-link"
+                  >
+                    Detalhes
+                  </Link>
+                </section>
+              ))}
+            {pesquisado === true ? <p>Nenhum produto foi encontrado</p> : null}
           </section>
         </section>
       </div>
