@@ -19,3 +19,11 @@ export async function getProductById(id) {
   const produto = await resposta.json();
   return produto;
 }
+
+export function setLocalItems(e, value) {
+  localStorage.setItem(e, JSON.stringify(value));
+}
+
+export function getLocalItems(elemento) {
+  return JSON.parse(localStorage.getItem(elemento));
+}

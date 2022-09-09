@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import { getProductsFromCategoryAndQuery,
+  getLocalItems,
+  setLocalItems } from '../services/api';
 import './Search.css';
 
 class Search extends React.Component {
@@ -14,6 +16,9 @@ class Search extends React.Component {
       radioValue: '',
       produtos: [],
     };
+  }
+
+  componentDidMount() {
   }
 
   handleChange = (event) => {
@@ -35,6 +40,11 @@ class Search extends React.Component {
       const produtos = await getProductsFromCategoryAndQuery(target.value, '');
       this.setState({ produtos: produtos.results, radioValue: target.value });
     }
+  };
+
+  cartClick = (objeto) => {
+    const item = getLocalItems('compra') || [];
+    setLocalItems('compra', [...item, objeto]);
   };
 
   render() {
@@ -98,6 +108,13 @@ class Search extends React.Component {
                   >
                     Detalhes
                   </Link>
+                  <button
+                    type="button"
+                    data-testid="product-add-to-cart"
+                    onClick={ () => this.cartClick(produto) }
+                  >
+                    Adicionar ao Carrinho
+                  </button>
                 </section>
               ))}
             {pesquisado === true ? <p>Nenhum produto foi encontrado</p> : null}
