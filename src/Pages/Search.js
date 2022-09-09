@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import './Search.css';
 
 class Search extends React.Component {
   constructor(props) {
@@ -42,33 +44,37 @@ class Search extends React.Component {
       <div>
         <Header />
         <section>
-          <p>Categorias de pesquisa</p>
-          {categorias.length > 1 && categorias.map((categoria) => (
-            <label data-testid="category" key={ categoria.id } htmlFor={ categoria.id }>
-              {categoria.name}
-              <input
-                value={ categoria.id }
-                name="categoria"
-                id={ categoria.id }
-                type="radio"
-                onClick={ this.radioClick }
-              />
-            </label>
-          ))}
-          <input
-            type="text"
-            data-testid="query-input"
-            onChange={ this.handleChange }
-            value={ inputValue }
-          />
-          <button
-            type="button"
-            data-testid="query-button"
-            onClick={ this.handleClickBuscar }
-          >
-            Buscar
+          <div id="categorias">
+            <p>Categorias de pesquisa</p>
+            {categorias.length > 1 && categorias.map((categoria) => (
+              <label data-testid="category" key={ categoria.id } htmlFor={ categoria.id }>
+                <input
+                  value={ categoria.id }
+                  name="categoria"
+                  id={ categoria.id }
+                  type="radio"
+                  onClick={ this.radioClick }
+                />
+                {categoria.name}
+              </label>
+            ))}
+          </div>
+          <div>
+            <input
+              type="text"
+              data-testid="query-input"
+              onChange={ this.handleChange }
+              value={ inputValue }
+            />
+            <button
+              type="button"
+              data-testid="query-button"
+              onClick={ this.handleClickBuscar }
+            >
+              Buscar
 
-          </button>
+            </button>
+          </div>
         </section>
         <section className="Produtos">
           <p data-testid="home-initial-message">
@@ -80,6 +86,9 @@ class Search extends React.Component {
                 <h4>{produtos.title}</h4>
                 <h5>{`Preço: R$ ${produto.price}`}</h5>
                 <img src={ produto.thumbnail } alt={ produto.id } />
+                <Link to={ `Produto/${produto.id}` } data-testid="product-detail-link">
+                  Detalhes
+                </Link>
               </section>
             ))}
             {pesquisado === true ? (<p>Nenhum produto foi encontrado</p>) : (null)}
