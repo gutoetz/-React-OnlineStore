@@ -4,6 +4,7 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Search from './Pages/Search';
 import Cart from './Pages/Cart';
 import { getCategories } from './services/api';
+import Produto from './Pages/Produto';
 
 class App extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class App extends React.Component {
               ) }
             />
             <Route exact path="/cart" component={ Cart } />
+            <Route exact path="/Produto/:id" component={ Produto } />
           </Switch>
         </React.StrictMode>
       </BrowserRouter>
