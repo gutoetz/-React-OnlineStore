@@ -13,10 +13,17 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
+    this.attCart();
+  }
+
+  componentDidUpdate() {
+  }
+
+  attCart = () => {
     let carrinho = getLocalItems('compra');
     if (!carrinho) carrinho = [];
     this.setState({ cart: carrinho }, this.filtro);
-  }
+  };
 
   filtro = () => {
     const { cart } = this.state;
@@ -31,21 +38,25 @@ class Cart extends React.Component {
     });
   };
 
-  decreaseProduct = (elemento) => {
-    const item = getLocalItems('compra') || [];
-    item.splice(indexOf(item.find((e) => e.id === elemento.id)), 1);
-    console.log(item.indexOf(elemento));
-  };
-
   addProduct = (elemento) => {
     const item = getLocalItems('compra') || [];
     setLocalItems('compra', [...item, elemento]);
+    this.attCart();
+  };
+
+  decreaseProduct = (elemento) => {
+    const item = getLocalItems('compra') || [];
+    const ind = item.findIndex((e) => e.id === elemento.id);
+    item.splice(ind, 1);
+    setLocalItems('compra', [...item]);
+    this.attCart();
   };
 
   removeProduct = (elemento) => {
     const item = getLocalItems('compra') || [];
     const newItem = item.filter((e) => e.id !== elemento.id);
     setLocalItems('compra', [...newItem]);
+    this.attCart();
   };
 
   render() {
@@ -68,9 +79,11 @@ class Cart extends React.Component {
                 -
 
               </button>
-              {
-                cart.filter((e) => e.id === elemento.id).length
-              }
+              <p data-testid="shopping-cart-product-quantity">
+                {
+                  cart.filter((e) => e.id === elemento.id).length
+                }
+              </p>
               <button
                 type="button"
                 onClick={ () => this.addProduct(elemento) }
