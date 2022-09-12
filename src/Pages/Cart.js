@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
-import { getLocalItems } from '../services/api';
+import { getLocalItems, setLocalItems } from '../services/api';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -31,6 +31,23 @@ class Cart extends React.Component {
     });
   };
 
+  decreaseProduct = (elemento) => {
+    const item = getLocalItems('compra') || [];
+    item.splice(indexOf(item.find((e) => e.id === elemento.id)), 1);
+    console.log(item.indexOf(elemento));
+  };
+
+  addProduct = (elemento) => {
+    const item = getLocalItems('compra') || [];
+    setLocalItems('compra', [...item, elemento]);
+  };
+
+  removeProduct = (elemento) => {
+    const item = getLocalItems('compra') || [];
+    const newItem = item.filter((e) => e.id !== elemento.id);
+    setLocalItems('compra', [...newItem]);
+  };
+
   render() {
     const { cart, realCart } = this.state;
     return (
@@ -43,9 +60,32 @@ class Cart extends React.Component {
             <h4 data-testid="shopping-cart-product-name">{elemento.title}</h4>
             <p>{elemento.price}</p>
             <p data-testid="shopping-cart-product-quantity">
+              <button
+                type="button"
+                onClick={ () => this.decreaseProduct(elemento) }
+                data-testid="product-decrease-quantity"
+              >
+                -
+
+              </button>
               {
                 cart.filter((e) => e.id === elemento.id).length
               }
+              <button
+                type="button"
+                onClick={ () => this.addProduct(elemento) }
+                data-testid="product-increase-quantity"
+              >
+                +
+
+              </button>
+              <button
+                type="button"
+                onClick={ () => this.removeProduct(elemento) }
+              >
+                Remover Item
+
+              </button>
             </p>
           </div>))}
         <Link to="/checkout" data-testid="checkout-products">Finalizar Compra</Link>

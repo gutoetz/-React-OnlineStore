@@ -52,8 +52,6 @@ class Search extends React.Component {
 
   cartClick = (objeto) => {
     const item = getLocalItems('compra') || [];
-    console.log(item);
-    console.log(objeto);
     setLocalItems('compra', [...item, objeto]);
     this.cartSize();
   };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getProductById, getLocalItems } from '../services/api';
+import { getProductById, getLocalItems, setLocalItems } from '../services/api';
 
 export default class Produto extends React.Component {
   state = {
@@ -10,12 +10,24 @@ export default class Produto extends React.Component {
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
+    const product = await getProductById(id);
+    this.setState({ load: false, product });
+    this.cartSize();
+  }
+
+  cartSize = () => {
     let carrinho = getLocalItems('compra');
     if (!carrinho) carrinho = 0;
     localStorage.setItem('tamanhoCart', [carrinho.length]);
-    const product = await getProductById(id);
-    this.setState({ load: false, product, cart: carrinho.length });
-  }
+    this.setState({ cart: carrinho.length });
+  };
+
+  cartClick = () => {
+    const { product } = this.state;
+    const item = getLocalItems('compra') || [];
+    setLocalItems('compra', [...item, product]);
+    this.cartSize();
+  };
 
   render() {
     const { load, product, cart } = this.state;
@@ -37,6 +49,13 @@ export default class Produto extends React.Component {
               R$
               { product.price }
             </h2>
+            <button
+              type="button"
+              data-testid="product-detail-add-to-cart"
+              onClick={ () => this.cartClick() }
+            >
+              Adicionar ao Carrinho
+            </button>
             <Link to="/Cart" data-testid="shopping-cart-button">
               Carrinho
             </Link>
