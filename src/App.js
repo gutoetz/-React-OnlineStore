@@ -5,6 +5,7 @@ import Search from './Pages/Search';
 import Cart from './Pages/Cart';
 import { getCategories } from './services/api';
 import Produto from './Pages/Produto';
+import Checkout from './Pages/Checkout';
 
 class App extends React.Component {
   constructor(props) {
@@ -37,7 +38,14 @@ class App extends React.Component {
               ) }
             />
             <Route exact path="/cart" component={ Cart } />
-            <Route exact path="/Produto/:id" component={ Produto } />
+            <Route exact path="/produto/:id" component={ Produto } />
+            <Route
+              exact
+              path="/checkout"
+              render={ () => (
+                <Checkout categorias={ categorias } />
+              ) }
+            />
           </Switch>
         </React.StrictMode>
       </BrowserRouter>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import { getLocalItems } from '../services/api';
 
@@ -47,6 +48,7 @@ class Cart extends React.Component {
               }
             </p>
           </div>))}
+        <Link to="/checkout" data-testid="checkout-products">Finalizar Compra</Link>
       </div>
     );
   }

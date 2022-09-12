@@ -19,7 +19,15 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
+    this.cartSize();
   }
+
+  cartSize = () => {
+    let carrinho = getLocalItems('compra');
+    if (!carrinho) carrinho = 0;
+    localStorage.setItem('tamanhoCart', [carrinho.length]);
+    this.setState({ cart: carrinho.length });
+  };
 
   handleChange = (event) => {
     const { target } = event;
@@ -44,16 +52,20 @@ class Search extends React.Component {
 
   cartClick = (objeto) => {
     const item = getLocalItems('compra') || [];
+    console.log(item);
+    console.log(objeto);
     setLocalItems('compra', [...item, objeto]);
+    this.cartSize();
   };
 
   render() {
-    const { inputValue, produtos, pesquisado } = this.state;
+    const { inputValue, produtos, pesquisado, cart } = this.state;
     const { categorias } = this.props;
     return (
       <div className="div1">
         <Header />
         <section className="section1">
+          <h5 data-testid="shopping-cart-size">{cart}</h5>
           <div className="categorias">
             <p className="titulo">Categorias de pesquisa</p>
             {categorias.length > 1
