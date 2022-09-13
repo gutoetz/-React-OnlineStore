@@ -46,6 +46,7 @@ class Cart extends React.Component {
 
   decreaseProduct = (elemento) => {
     const item = getLocalItems('compra') || [];
+    item.reverse();
     const ind = item.findIndex((e) => e.id === elemento.id);
     item.splice(ind, 1);
     setLocalItems('compra', [...item]);
@@ -70,7 +71,7 @@ class Cart extends React.Component {
           <div key={ elemento.id }>
             <h4 data-testid="shopping-cart-product-name">{elemento.title}</h4>
             <p>{elemento.price}</p>
-            <p>
+            <section>
               <button
                 type="button"
                 onClick={ () => this.decreaseProduct(elemento) }
@@ -100,7 +101,7 @@ class Cart extends React.Component {
                 Remover Item
 
               </button>
-            </p>
+            </section>
           </div>))}
         <Link to="/checkout" data-testid="checkout-products">Finalizar Compra</Link>
       </div>
