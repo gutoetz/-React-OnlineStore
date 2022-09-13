@@ -70,7 +70,7 @@ class Cart extends React.Component {
           <div key={ elemento.id }>
             <h4 data-testid="shopping-cart-product-name">{elemento.title}</h4>
             <p>{elemento.price}</p>
-            <p data-testid="shopping-cart-product-quantity">
+            <p>
               <button
                 type="button"
                 onClick={ () => this.decreaseProduct(elemento) }
@@ -95,6 +95,7 @@ class Cart extends React.Component {
               <button
                 type="button"
                 onClick={ () => this.removeProduct(elemento) }
+                data-testid="remove-product"
               >
                 Remover Item
 
