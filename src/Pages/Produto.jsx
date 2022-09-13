@@ -41,12 +41,12 @@ export default class Produto extends React.Component {
   };
 
   submitBtn = () => {
-    const { email, txt, rate } = this.state;
-    const { match: { params: { id } } } = this.props;
-    if (email.length > 0 && txt.length > 0 && rate.length > 0) {
-    } else {
-      this.setState({ invalido: true });
-    }
+    // const { email, txt, rate } = this.state;
+    // // const { match: { params: { id } } } = this.props;
+    // if (email.length > 0 && txt.length > 0 && rate.length > 0) {
+    // } else {
+    //   this.setState({ invalido: true });
+    // }
   };
 
   render() {
