@@ -12,7 +12,7 @@ class Checkout extends React.Component {
       endereco: '',
       cpf: '',
       cep: '',
-      pay: 'boleto',
+      pay: '',
       phone: '',
       email: '',
       preenchido: false,
@@ -54,11 +54,11 @@ class Checkout extends React.Component {
     if (type === 'radio') {
       this.setState({
         [name]: value,
-      }, this.completed());
+      }, this.completed);
     } else {
       this.setState({
         [id]: value,
-      }, this.completed());
+      }, this.completed);
     }
   };
 
@@ -194,7 +194,6 @@ class Checkout extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          {/* //buton */}
           {invalid && <h4 data-testid="error-msg">Campos inválidos</h4>}
           <button
             type="button"
