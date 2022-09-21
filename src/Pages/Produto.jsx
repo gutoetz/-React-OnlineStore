@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getProductById, getLocalItems, setLocalItems } from '../services/api';
+import { getProductById, setLocalItems } from '../services/api';
 
 export default class Produto extends React.Component {
   state = {
@@ -15,21 +15,18 @@ export default class Produto extends React.Component {
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const product = await getProductById(id);
-    this.setState({ load: false, product });
+    const comments = JSON.parse(localStorage.getItem(id));
+    this.setState({ load: false, product, comments });
     this.cartSize();
   }
 
   cartSize = () => {
-    let carrinho = getLocalItems('compra');
-    if (!carrinho) carrinho = 0;
-    localStorage.setItem('tamanhoCart', [carrinho.length]);
-    this.setState({ cart: carrinho.length });
+    const carrinho = localStorage.getItem('tamanhoCart') || 0;
+    this.setState({ cart: carrinho });
   };
 
-  cartClick = () => {
-    const { product } = this.state;
-    const item = getLocalItems('compra') || [];
-    setLocalItems('compra', [...item, product]);
+  cartClick = (product) => {
+    setLocalItems(product);
     this.cartSize();
   };
 
@@ -41,12 +38,19 @@ export default class Produto extends React.Component {
   };
 
   submitBtn = () => {
-    // const { email, txt, rate } = this.state;
-    // // const { match: { params: { id } } } = this.props;
-    // if (email.length > 0 && txt.length > 0 && rate.length > 0) {
-    // } else {
-    //   this.setState({ invalido: true });
-    // }
+    const { email, txt, rate, comments } = this.state;
+    const { match: { params: { id } } } = this.props;
+    if (email.length > 0 && txt.length > 0 && rate.length > 0) {
+      const newComment = {
+        email,
+        text: txt,
+        rating: rate[1],
+      };
+      const comentarios = [...comments, newComment];
+      localStorage.setItem([id], JSON.stringify(comentarios));
+    } else {
+      this.setState({ invalido: true });
+    }
   };
 
   render() {
@@ -72,7 +76,7 @@ export default class Produto extends React.Component {
             <button
               type="button"
               data-testid="product-detail-add-to-cart"
-              onClick={ () => this.cartClick() }
+              onClick={ () => this.cartClick(product) }
             >
               Adicionar ao Carrinho
             </button>

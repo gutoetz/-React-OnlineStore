@@ -20,10 +20,47 @@ export async function getProductById(id) {
   return produto;
 }
 
-export function setLocalItems(e, value) {
-  localStorage.setItem(e, JSON.stringify(value));
+export function getLocalItems() {
+  return JSON.parse(localStorage.getItem('compra'));
 }
 
-export function getLocalItems(elemento) {
-  return JSON.parse(localStorage.getItem(elemento));
+export function tamanhoCart() {
+  const cart = getLocalItems() || 0;
+  let sizeCart = 0;
+  if (cart !== 0) {
+    cart.forEach((e) => { sizeCart += e.quantidade; });
+  }
+  localStorage.setItem('tamanhoCart', sizeCart);
+}
+
+export function setLocalItems(object) {
+  const item = getLocalItems() || [];
+  if (item.find((e) => e.id === object.id) === undefined) {
+    object.quantidade = 1;
+    localStorage.setItem('compra', JSON.stringify([...item, object]));
+  }
+  if (item.find((e) => e.id === object.id) !== undefined) {
+    item.find((e) => e.id === object.id).quantidade = Number(
+      item.find((e) => e.id === object.id).quantidade,
+    ) + 1;
+    localStorage.setItem('compra', JSON.stringify([...item]));
+  }
+  tamanhoCart();
+}
+
+export function decreaseLocalItems(object) {
+  const item = getLocalItems() || [];
+  if (item.find((e) => e.id === object.id).quantidade >= 1) {
+    item.find((e) => e.id === object.id).quantidade = Number(
+      item.find((e) => e.id === object.id).quantidade,
+    ) - 1;
+    localStorage.setItem('compra', JSON.stringify([...item]));
+  }
+  if (item.find((e) => e.id === object.id).quantidade < 1) {
+    localStorage.setItem(
+      'compra',
+      JSON.stringify([...item.filter((e) => e.id !== object.id)]),
+    );
+  }
+  tamanhoCart();
 }

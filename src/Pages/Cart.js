@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
-import { getLocalItems, setLocalItems } from '../services/api';
+import { decreaseLocalItems, getLocalItems, setLocalItems } from '../services/api';
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cart: [],
-      realCart: [],
     };
   }
 
@@ -20,58 +19,41 @@ class Cart extends React.Component {
   }
 
   attCart = () => {
-    let carrinho = getLocalItems('compra');
-    if (!carrinho) carrinho = [];
-    this.setState({ cart: carrinho }, this.filtro);
-  };
-
-  filtro = () => {
-    const { cart } = this.state;
-    const filtrado = [];
-    cart.forEach((elemento) => {
-      if (!filtrado.some((e) => e.id === elemento.id)) {
-        return filtrado.push(elemento);
-      }
-    });
-    this.setState({
-      realCart: filtrado,
-    });
+    const carrinho = getLocalItems() || [];
+    this.setState({ cart: carrinho });
   };
 
   addProduct = (elemento) => {
-    const item = getLocalItems('compra') || [];
-    setLocalItems('compra', [...item, elemento]);
+    setLocalItems(elemento);
     this.attCart();
   };
 
   decreaseProduct = (elemento) => {
-    const item = getLocalItems('compra') || [];
-    item.reverse();
-    const ind = item.findIndex((e) => e.id === elemento.id);
-    item.splice(ind, 1);
-    setLocalItems('compra', [...item]);
+    decreaseLocalItems(elemento);
     this.attCart();
   };
 
   removeProduct = (elemento) => {
-    const item = getLocalItems('compra') || [];
-    const newItem = item.filter((e) => e.id !== elemento.id);
-    setLocalItems('compra', [...newItem]);
+    const item = getLocalItems() || [];
+    const newItems = item.filter((e) => e.id !== elemento.id);
+    localStorage.setItem('compra', JSON.stringify([...newItems]));
     this.attCart();
   };
 
   render() {
-    const { cart, realCart } = this.state;
+    const { cart } = this.state;
     return (
       <div>
         <Header />
         {cart.length === 0 && (
           <h3 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h3>)}
-        { realCart.map((elemento) => (
+        { cart.map((elemento) => (
           <div key={ elemento.id }>
-            <h4 data-testid="shopping-cart-product-name">{elemento.title}</h4>
+            <p data-testid="shopping-cart-product-name">{elemento.title}</p>
             <p>{elemento.price}</p>
             <section>
+              {' '}
+
               <button
                 type="button"
                 onClick={ () => this.decreaseProduct(elemento) }
@@ -80,11 +62,11 @@ class Cart extends React.Component {
                 -
 
               </button>
-              <p data-testid="shopping-cart-product-quantity">
+              <h6 data-testid="shopping-cart-product-quantity">
                 {
-                  cart.filter((e) => e.id === elemento.id).length
+                  elemento.quantidade
                 }
-              </p>
+              </h6>
               <button
                 type="button"
                 onClick={ () => this.addProduct(elemento) }

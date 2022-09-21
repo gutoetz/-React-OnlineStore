@@ -3,8 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import { getProductsFromCategoryAndQuery,
-  getLocalItems,
-  setLocalItems } from '../services/api';
+  setLocalItems,
+  tamanhoCart } from '../services/api';
 import './Search.css';
 
 class Search extends React.Component {
@@ -23,10 +23,9 @@ class Search extends React.Component {
   }
 
   cartSize = () => {
-    let carrinho = getLocalItems('compra');
-    if (!carrinho) carrinho = 0;
-    localStorage.setItem('tamanhoCart', [carrinho.length]);
-    this.setState({ cart: carrinho.length });
+    tamanhoCart();
+    const carrinho = localStorage.getItem('tamanhoCart') || 0;
+    this.setState({ cart: carrinho });
   };
 
   handleChange = (event) => {
@@ -51,8 +50,7 @@ class Search extends React.Component {
   };
 
   cartClick = (objeto) => {
-    const item = getLocalItems('compra') || [];
-    setLocalItems('compra', [...item, objeto]);
+    setLocalItems(objeto);
     this.cartSize();
   };
 

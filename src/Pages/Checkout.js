@@ -7,7 +7,6 @@ class Checkout extends React.Component {
     super(props);
     this.state = {
       cart: [],
-      realCart: [],
       nome: '',
       endereco: '',
       cpf: '',
@@ -22,23 +21,10 @@ class Checkout extends React.Component {
   }
 
   componentDidMount() {
-    let carrinho = getLocalItems('compra');
+    let carrinho = getLocalItems();
     if (!carrinho) carrinho = [];
-    this.setState({ cart: carrinho }, this.filtro);
+    this.setState({ cart: carrinho });
   }
-
-  filtro = () => {
-    const { cart } = this.state;
-    const filtrado = [];
-    cart.forEach((elemento) => {
-      if (!filtrado.some((e) => e.id === elemento.id)) {
-        return filtrado.push(elemento);
-      }
-    });
-    this.setState({
-      realCart: filtrado,
-    });
-  };
 
   completed = () => {
     const { nome, pay, cpf, cep, email, endereco, phone } = this.state;
@@ -73,20 +59,20 @@ class Checkout extends React.Component {
   };
 
   render() {
-    const { cart, realCart, nome, cpf, email, cep, endereco, pay,
+    const { cart, nome, cpf, email, cep, endereco, pay,
       phone, invalid, submit } = this.state;
     if (submit) { return <Redirect to="/" />; }
     return (
       <div>
         <section>
           <h3>Revise seus Produtos</h3>
-          { realCart.map((elemento) => (
+          { cart.map((elemento) => (
             <div key={ elemento.id }>
               <h5 data-testid="checkout-products">{elemento.title}</h5>
               <p>{`R$ ${elemento.price}`}</p>
               <p>
                 {
-                  cart.filter((e) => e.id === elemento.id).length
+                  elemento.quantidade
                 }
               </p>
             </div>))}
