@@ -50,16 +50,16 @@ export function setLocalItems(object) {
 
 export function decreaseLocalItems(object) {
   const item = getLocalItems() || [];
-  if (item.find((e) => e.id === object.id).quantidade >= 1) {
+  if (item.find((e) => e.id === object.id).quantidade > 1) {
     item.find((e) => e.id === object.id).quantidade = Number(
       item.find((e) => e.id === object.id).quantidade,
     ) - 1;
     localStorage.setItem('compra', JSON.stringify([...item]));
   }
-  if (item.find((e) => e.id === object.id).quantidade < 1) {
+  if (item.find((e) => e.id === object.id).quantidade === 1) {
     localStorage.setItem(
       'compra',
-      JSON.stringify([...item.filter((e) => e.id !== object.id)]),
+      JSON.stringify([...item]),
     );
   }
   tamanhoCart();

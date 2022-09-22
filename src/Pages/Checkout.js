@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { getLocalItems, setLocalItems } from '../services/api';
+import { getLocalItems } from '../services/api';
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -21,8 +21,7 @@ class Checkout extends React.Component {
   }
 
   componentDidMount() {
-    let carrinho = getLocalItems();
-    if (!carrinho) carrinho = [];
+    const carrinho = getLocalItems() || [];
     this.setState({ cart: carrinho });
   }
 
@@ -51,7 +50,7 @@ class Checkout extends React.Component {
   submitClick = () => {
     const { preenchido } = this.state;
     if (preenchido) {
-      setLocalItems('compra', []);
+      localStorage.setItem('compra', JSON.stringify([]));
       this.setState({ submit: true });
     } else {
       this.setState({ invalid: true });

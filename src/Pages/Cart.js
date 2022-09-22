@@ -50,6 +50,8 @@ class Cart extends React.Component {
         { cart.map((elemento) => (
           <div key={ elemento.id }>
             <p data-testid="shopping-cart-product-name">{elemento.title}</p>
+            {elemento.shipping.free_shipping ? (
+              <h6 data-testid="free-shipping">Frete Grátis</h6>) : (null)}
             <p>{elemento.price}</p>
             <section>
               {' '}
@@ -71,6 +73,7 @@ class Cart extends React.Component {
                 type="button"
                 onClick={ () => this.addProduct(elemento) }
                 data-testid="product-increase-quantity"
+                disabled={ elemento.quantidade === elemento.available_quantity }
               >
                 +
 

@@ -10,12 +10,13 @@ export default class Produto extends React.Component {
     email: '',
     txt: '',
     rate: '',
+    comments: [],
   };
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const product = await getProductById(id);
-    const comments = JSON.parse(localStorage.getItem(id));
+    const comments = JSON.parse(localStorage.getItem(id)) || [];
     this.setState({ load: false, product, comments });
     this.cartSize();
   }
@@ -30,7 +31,15 @@ export default class Produto extends React.Component {
     this.cartSize();
   };
 
+  invalid = () => {
+    const { email, rate } = this.state;
+    if (email.length > 0 && rate.length > 0) {
+      this.setState({ invalido: false });
+    }
+  };
+
   handleChange = (event) => {
+    this.invalid();
     const { target } = event;
     if (target.type === 'radio') {
       this.setState({ rate: target.id });
@@ -38,9 +47,10 @@ export default class Produto extends React.Component {
   };
 
   submitBtn = () => {
-    const { email, txt, rate, comments } = this.state;
+    const { email, txt, rate } = this.state;
     const { match: { params: { id } } } = this.props;
-    if (email.length > 0 && txt.length > 0 && rate.length > 0) {
+    const comments = JSON.parse(localStorage.getItem(id)) || [];
+    if (email.length > 0 && rate.length > 0) {
       const newComment = {
         email,
         text: txt,
@@ -48,13 +58,18 @@ export default class Produto extends React.Component {
       };
       const comentarios = [...comments, newComment];
       localStorage.setItem([id], JSON.stringify(comentarios));
+      this.setState({ email: '',
+        txt: '',
+        rate: '',
+        comments: comentarios,
+        invalido: false });
     } else {
       this.setState({ invalido: true });
     }
   };
 
   render() {
-    const { load, product, cart, invalido, email, txt, rate } = this.state;
+    const { load, product, cart, invalido, email, txt, rate, comments } = this.state;
     return (
       <>
         <h1>Produto</h1>
@@ -159,6 +174,13 @@ export default class Produto extends React.Component {
               </button>
               {invalido && <p data-testid="error-msg">Campos inválidos</p>}
             </form>
+            { comments.map((comment, index) => (
+              <section key={ index }>
+                <h6 data-testid="review-card-email">{comment.email}</h6>
+                <h4 data-testid="review-card-rating">{comment.rating}</h4>
+                <p data-testid="review-card-evaluation">{comment.text}</p>
+              </section>
+            ))}
             <Link to="/Cart" data-testid="shopping-cart-button">
               Carrinho
             </Link>

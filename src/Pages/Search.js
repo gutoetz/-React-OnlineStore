@@ -108,6 +108,8 @@ class Search extends React.Component {
               && produtos.map((produto) => (
                 <section data-testid="product" key={ produto.id }>
                   <h4>{produtos.title}</h4>
+                  {produto.shipping.free_shipping ? (
+                    <h6 data-testid="free-shipping">Frete Grátis</h6>) : (null)}
                   <h5>{`Preço: R$ ${produto.price}`}</h5>
                   <img src={ produto.thumbnail } alt={ produto.id } />
                   <Link
