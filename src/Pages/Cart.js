@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../Components/Header';
 import { decreaseLocalItems, getLocalItems, setLocalItems } from '../services/api';
+import './cart.css';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -42,54 +42,74 @@ class Cart extends React.Component {
 
   render() {
     const { cart } = this.state;
+    console.log(cart);
     return (
-      <div>
-        <Header />
-        {cart.length === 0 && (
-          <h3 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h3>)}
-        { cart.map((elemento) => (
-          <div key={ elemento.id }>
-            <p data-testid="shopping-cart-product-name">{elemento.title}</p>
-            {elemento.shipping.free_shipping ? (
-              <h6 data-testid="free-shipping">Frete Grátis</h6>) : (null)}
-            <p>{elemento.price}</p>
-            <section>
-              {' '}
+      <div className="divgeral">
+        <div className="produtos">
+          {cart.length === 0 && (
+            <h3 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h3>)}
+          { cart.map((elemento) => (
+            <div className="produto" key={ elemento.id }>
+              <div className="imgcontainer">
+                <img src={ elemento.thumbnail } alt={ elemento.id } />
+              </div>
+              <p data-testid="shopping-cart-product-name">{elemento.title}</p>
+              {elemento.shipping.free_shipping ? (
+                <h6 data-testid="free-shipping">Frete Grátis</h6>) : (null)}
+              <section className="precos">
+                <h5>Price: R$</h5>
+                <h5>{elemento.price}</h5>
+              </section>
+              <section>
+                <section className="increase">
+                  <button
+                    className="cartbt"
+                    type="button"
+                    onClick={ () => this.decreaseProduct(elemento) }
+                    data-testid="product-decrease-quantity"
+                  >
+                    -
 
-              <button
-                type="button"
-                onClick={ () => this.decreaseProduct(elemento) }
-                data-testid="product-decrease-quantity"
-              >
-                -
+                  </button>
+                  <h6 data-testid="shopping-cart-product-quantity">
+                    {
+                      elemento.quantidade
+                    }
+                  </h6>
+                  <button
+                    className="cartbt"
+                    type="button"
+                    onClick={ () => this.addProduct(elemento) }
+                    data-testid="product-increase-quantity"
+                    disabled={ elemento.quantidade === elemento.available_quantity }
+                  >
+                    +
 
-              </button>
-              <h6 data-testid="shopping-cart-product-quantity">
-                {
-                  elemento.quantidade
-                }
-              </h6>
-              <button
-                type="button"
-                onClick={ () => this.addProduct(elemento) }
-                data-testid="product-increase-quantity"
-                disabled={ elemento.quantidade === elemento.available_quantity }
-              >
-                +
+                  </button>
+                  <button
+                    className="cartbt"
+                    type="button"
+                    onClick={ () => this.removeProduct(elemento) }
+                    data-testid="remove-product"
+                  >
+                    Remover Item
 
-              </button>
-              <button
-                type="button"
-                onClick={ () => this.removeProduct(elemento) }
-                data-testid="remove-product"
-              >
-                Remover Item
+                  </button>
+                </section>
+              </section>
+            </div>))}
+        </div>
+        <Link
+          class="btn btn-primary"
+          id="linke"
+          to="/checkout"
+          data-testid="checkout-products"
+        >
+          Finalizar Compra
 
-              </button>
-            </section>
-          </div>))}
-        <Link to="/checkout" data-testid="checkout-products">Finalizar Compra</Link>
+        </Link>
       </div>
+
     );
   }
 }

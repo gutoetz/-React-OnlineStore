@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Search from './Pages/Search';
 import Cart from './Pages/Cart';

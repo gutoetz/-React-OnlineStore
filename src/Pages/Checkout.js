@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { getLocalItems } from '../services/api';
+import './checkout.css';
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -63,75 +64,88 @@ class Checkout extends React.Component {
     if (submit) { return <Redirect to="/" />; }
     return (
       <div>
-        <section>
-          <h3>Revise seus Produtos</h3>
+        <h3 className="display-3 h3">Revise seus Produtos</h3>
+        <section className="sectionCheckout">
           { cart.map((elemento) => (
-            <div key={ elemento.id }>
-              <h5 data-testid="checkout-products">{elemento.title}</h5>
-              <p>{`R$ ${elemento.price}`}</p>
-              <p>
-                {
-                  elemento.quantidade
-                }
-              </p>
+            <div className="produto" key={ elemento.id }>
+              <div className="produtoBox">
+                <div className="imgcontainer">
+                  <img src={ elemento.thumbnail } alt={ elemento.id } />
+                </div>
+                <div className="txtcontainer">
+                  <h5 data-testid="checkout-products">{elemento.title}</h5>
+                  <h6>{`R$ ${elemento.price}`}</h6>
+                  <h6>
+                    {
+                      `Quantidade: ${elemento.quantidade}`
+                    }
+                  </h6>
+                </div>
+              </div>
             </div>))}
         </section>
         <form>
-          <label htmlFor="nome">
+          <label className="form-label" htmlFor="nome">
             Nome Completo:
             <input
+              className="form-control"
               data-testid="checkout-fullname"
               id="nome"
               onChange={ this.handleChange }
               value={ nome }
             />
           </label>
-          <label htmlFor="email">
+          <label className="form-label" htmlFor="email">
             E-mail:
             <input
+              className="form-control"
               data-testid="checkout-email"
               id="email"
               onChange={ this.handleChange }
               value={ email }
             />
           </label>
-          <label htmlFor="cpf">
+          <label className="form-label" htmlFor="cpf">
             CPF:
             <input
+              className="form-control"
               data-testid="checkout-cpf"
               id="cpf"
               onChange={ this.handleChange }
               value={ cpf }
             />
           </label>
-          <label htmlFor="phone">
+          <label className="form-label" htmlFor="phone">
             Phone:
             <input
+              className="form-control"
               data-testid="checkout-phone"
               id="phone"
               onChange={ this.handleChange }
               value={ phone }
             />
           </label>
-          <label htmlFor="cep">
+          <label className="form-label" htmlFor="cep">
             CEP:
             <input
+              className="form-control"
               value={ cep }
               data-testid="checkout-cep"
               id="cep"
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="adress">
+          <label className="form-label" htmlFor="adress">
             Endereço:
             <input
+              className="form-control"
               value={ endereco }
               data-testid="checkout-address"
               id="endereco"
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="boleto">
+          <label className="form-label" htmlFor="boleto">
             Boleto
             <input
               type="radio"
@@ -143,7 +157,7 @@ class Checkout extends React.Component {
               checked={ pay === 'boleto' }
             />
           </label>
-          <label htmlFor="visa">
+          <label className="form-label" htmlFor="visa">
             Visa
             <input
               type="radio"
@@ -155,7 +169,7 @@ class Checkout extends React.Component {
               checked={ pay === 'visa' }
             />
           </label>
-          <label htmlFor="master">
+          <label className="form-label" htmlFor="master">
             Master
             <input
               type="radio"
@@ -167,7 +181,7 @@ class Checkout extends React.Component {
               checked={ pay === 'master' }
             />
           </label>
-          <label htmlFor="elo">
+          <label className="form-label" htmlFor="elo">
             Elo
             <input
               type="radio"
@@ -181,6 +195,7 @@ class Checkout extends React.Component {
           </label>
           {invalid && <h4 data-testid="error-msg">Campos inválidos</h4>}
           <button
+            className="btn btn-primary"
             type="button"
             onClick={ this.submitClick }
             data-testid="checkout-btn"

@@ -1,0 +1,93 @@
+.display-1 {
+    text-align: center;
+}
+
+.cartProduct {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(146, 146, 146, 0.11);
+    width: 400px;
+    margin: auto;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+border: 1px solid black;
+}
+
+.imagemCOntain {
+    width: 240px;
+    height: 240px;
+    margin-bottom: 20px;
+}
+
+#imga {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+.av {
+    display: flex;
+    padding: 10px;
+}
+
+.form-label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.cartSize {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.btn {
+    margin-top: 10px;
+}
+
+.avalia {
+    width: 80%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.466);
+    border-radius: 4px;
+    -webkit-box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.58); 
+box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.58);
+}
+
+.tit {
+    margin-top: 20px;
+}
+
+.imagemuser {
+    width: 30px;
+}
+
+.sec {
+    display: flex;
+    margin-top: 5px;
+    justify-content: space-between;
+}
+
+.formContainer {
+  width: 80%;
+}
+
+#em {
+    width: 80%;
+}
+
+#al {
+    width: 80%;
+}
